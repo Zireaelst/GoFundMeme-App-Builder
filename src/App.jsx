@@ -27,6 +27,7 @@ function App() {
     }
 
     setLoading(true);
+    setMessage(''); // Clear any previous messages
     // Sending meme URL to serverless function
     try {
       const response = await fetch('/.netlify/functions/mintToken', {
@@ -34,6 +35,11 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ memeUrl })
       });
+      
+      if (!response.ok) {
+        throw new Error(`Server responded with status: ${response.status}`);
+      }
+      
       const result = await response.json();
       
       if(result.success) {
@@ -48,11 +54,11 @@ function App() {
         // Clear input
         setMemeUrl('');
       } else {
-        setMessage('Error occurred during the process: ' + result.error);
+        setMessage('Error: ' + (result.error || 'Unknown error occurred'));
       }
     } catch (error) {
-      console.error(error);
-      setMessage('An error occurred: ' + (error.message || 'Unknown error'));
+      console.error('Upload error:', error);
+      setMessage('Upload failed: ' + (error.message || 'Unknown error'));
     } finally {
       setLoading(false);
     }

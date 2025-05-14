@@ -3,7 +3,7 @@
 
 // Updated SDK initialization wrapped in a promise
 import { Connection } from "@solana/web3.js";
-import { initGoFundMemeSDK } from "@gofundmeme/sdk";
+import { initGoFundMemeSDK } from "@gofundmeme/sdk-frontend";
 const gfmSDKPromise = (async () => {
   const connection = new Connection("https://api.mainnet-beta.solana.com");
   return await initGoFundMemeSDK({ connection });
